@@ -1,13 +1,16 @@
 import { Schema, model } from "mongoose";
 
-const contactSchema = new Schema( {
+import MongooseError from "../helpers/MongooseError.js";
+
+const contactSchema = new Schema(
+  {
     name: {
       type: String,
-      required: [true, 'Set name for contact'],
+      required: [true, "Set name for contact"],
     },
     email: {
       type: String,
-      required: [true, 'Set email for contact'],
+      required: [true, "Set email for contact"],
     },
     phone: {
       type: String,
@@ -16,8 +19,19 @@ const contactSchema = new Schema( {
       type: Boolean,
       default: false,
     },
-  });
+  },
+  { versionKey: false, timestamps: true }
+);
 
-const Contact = model("movie", contactSchema);
+contactSchema.post("save", MongooseError);
+
+contactSchema.pre("findOneAndUpdate", function (next) {
+  this.options.runValidators = true;
+  next();
+});
+
+contactSchema.post("findOneAndUpdate", MongooseError );
+
+const Contact = model("contact", contactSchema);
 
 export default Contact;
