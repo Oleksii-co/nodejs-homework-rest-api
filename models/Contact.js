@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 
-import MongooseError from "../helpers/MongooseError.js";
+import { MongooseError } from "../helpers/index.js";
 
 const contactSchema = new Schema(
   {
@@ -19,6 +19,10 @@ const contactSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -30,7 +34,7 @@ contactSchema.pre("findOneAndUpdate", function (next) {
   next();
 });
 
-contactSchema.post("findOneAndUpdate", MongooseError );
+contactSchema.post("findOneAndUpdate", MongooseError);
 
 const Contact = model("contact", contactSchema);
 

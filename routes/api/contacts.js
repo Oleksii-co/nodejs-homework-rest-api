@@ -11,16 +11,23 @@ import { updateFavoriteSchema } from "../../schemas/contact.js";
 import validateBody from "../../middlewares/validateBody.js";
 
 import isValidId from "../../middlewares/isValidId.js";
+import authenticate from "../../middlewares/authenticate.js";
 
-router.get("/", ctrl.getAll);
+router.get("/", authenticate, ctrl.getAll);
 
-router.get("/:contactId", isValidId, ctrl.getById);
+router.get("/:contactId", authenticate, isValidId, ctrl.getById);
 
-router.post("/", validateBody(addSchema), ctrl.add);
+router.post("/", authenticate, validateBody(addSchema), ctrl.add);
 
-router.put("/:contactId", isValidId, validateBody(addSchema), ctrl.updateById);
+router.put(
+  "/:contactId",
+  authenticate,
+  isValidId,
+  validateBody(addSchema),
+  ctrl.updateById
+);
 
-router.delete("/:contactId", isValidId, ctrl.deleteById);
+router.delete("/:contactId", authenticate, isValidId, ctrl.deleteById);
 
 router.patch(
   "/:contactId/favorite",

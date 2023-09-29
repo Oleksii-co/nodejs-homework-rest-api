@@ -1,9 +1,3 @@
-import HttpError from "./HttpError.js";
-import ctrlWrapper from "./ctrlWrapper.js";
-import MongooseError from "./MongooseError.js";
-
-export default {
-  HttpError,
-  ctrlWrapper,
-  MongooseError,
-};
+export { default as MongooseError } from "./MongooseError.js";
+export { default as ctrlWrapper } from "./ctrlWrapper.js";
+export { default as HttpError } from "./HttpError.js";
