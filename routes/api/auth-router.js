@@ -8,10 +8,14 @@ import upload from "../../middlewares/upload.js";
 const authRouter = express.Router();
 
 const userRegisterValidate = validateBody(userSchemas.userRegisterSchema);
-
 const userLoginValidate = validateBody(userSchemas.userLoginSchema);
+const UserEmailValidate = validateBody(userSchemas.userEmailSchema);
 
 authRouter.post("/register", userRegisterValidate, authController.register);
+
+authRouter.get("/verify/:verificationCode", authController.verify);
+
+authRouter.post("/verify", UserEmailValidate, authController.resendVerifyEmail);
 
 authRouter.post("/login", userLoginValidate, authController.login);
 
